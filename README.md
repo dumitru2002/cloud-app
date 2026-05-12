@@ -28,8 +28,8 @@ java -jar ./build/libs/tech-challenge-0.0.1-SNAPSHOT.jar
 3. [DONE]Docker image should be deployed to a Kubernetes cluster.
 4. [DONE]Kubernetes cluster should be running on a cloud provider.
 5. [DONE]Kubernetes cluster should be accessible from the internet.
-6. Kubernetes cluster should be able to scale the application.
-7. Kubernetes cluster should be able to update the application without downtime.
+6. [DONE]Kubernetes cluster should be able to scale the application.
+7. [DONE]Kubernetes cluster should be able to update the application without downtime.
 8. Kubernetes cluster should be able to rollback the application to a previous version.
 9. Kubernetes cluster should be able to monitor the application.
 10. Kubernetes cluster should be able to autoscale the application based on the load.
