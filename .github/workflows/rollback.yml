@@ -1,0 +1,64 @@
+name: Rollback to specific image
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Image tag to deploy (e.g. sha-abc1234 or latest)"
+        required: true
+        type: string
+      reason:
+        description: "Reason for rollback (for the audit log)"
+        required: true
+        type: string
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: "v1.30.0"
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG_B64 }}" | base64 --decode > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Verify cluster access
+        run: kubectl cluster-info
+
+      - name: Verify image exists in GHCR
+        run: |
+          IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.image_tag }}"
+          echo "Checking $IMAGE exists..."
+          docker manifest inspect "$IMAGE" > /dev/null
+          echo "OK"
+
+      - name: Rollback to specified image
+        run: |
+          IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.image_tag }}"
+          echo "Rolling back to: $IMAGE"
+          kubectl set image deployment/cloud-app cloud-app="$IMAGE"
+          kubectl annotate deployment/cloud-app \
+            kubernetes.io/change-cause="ROLLBACK to ${{ inputs.image_tag }} by ${{ github.actor }} — reason: ${{ inputs.reason }}" \
+            --overwrite
+
+      - name: Wait for rollout
+        run: kubectl rollout status deployment/cloud-app --timeout=5m
+
+      - name: Show status
+        run: |
+          kubectl get pods -l app=cloud-app
+          kubectl get deployment cloud-app -o wide
+          kubectl rollout history deployment/cloud-app | tail -5
