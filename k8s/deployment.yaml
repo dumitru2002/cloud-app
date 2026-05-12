@@ -9,6 +9,12 @@ spec:
   selector:
     matchLabels:
       app: cloud-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  revisionHistoryLimit: 10
   template:
     metadata:
       labels:
@@ -17,8 +23,10 @@ spec:
       containers:
         - name: cloud-app
           image: ghcr.io/dumitru2002/cloud-app:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
+              name: http
           resources:
             requests:
               cpu: "100m"
@@ -26,3 +34,23 @@ spec:
             limits:
               cpu: "500m"
               memory: "512Mi"
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
