@@ -90,9 +90,11 @@ jobs:
 
       - name: Apply deployment with new image
         run: |
-          sed -i "s|image: ghcr.io/${{ env.IMAGE_NAME }}:.*|image: ${{ steps.tag.outputs.image }}|" k8s/deployment.yaml
-          cat k8s/deployment.yaml | grep "image:"
           kubectl apply -f k8s/deployment.yaml
+          kubectl set image deployment/cloud-app cloud-app=${{ steps.tag.outputs.image }}
+          kubectl annotate deployment/cloud-app \
+            kubernetes.io/change-cause="CI deploy of ${{ steps.tag.outputs.image }} from commit ${{ github.sha }}" \
+            --overwrite
 
       - name: Wait for rollout
         run: |
