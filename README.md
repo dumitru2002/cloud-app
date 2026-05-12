@@ -37,3 +37,15 @@ java -jar ./build/libs/tech-challenge-0.0.1-SNAPSHOT.jar
 12. Application should be able to send metrics to a monitoring system.
 13. Database should be running on a separate container.
 14. Storage should be mounted to the database container.
+
+## Cloud Infrastructure
+
+- **Provider:** AWS
+- **Region:** eu-central-1 (Frankfurt)
+- **Compute:** 1× EC2 t3.medium (2 vCPU, 4 GB RAM)
+- **OS:** Ubuntu 22.04 LTS
+- **Networking:** Default VPC, security group `cloud-app-sg`
+- **Storage:** 20 GB EBS gp3 root volume
+- **Public access:** Ports 80, 443, 30000-32767 open to internet; port 22 restricted to operator IP
+- **Ingress controller:** Traefik (bundled with k3s, exposed on host ports 80/443 via Klipper)
+- **Public URL:** http://18.192.246.204
