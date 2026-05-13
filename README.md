@@ -53,3 +53,7 @@ java -jar ./build/libs/tech-challenge-0.0.1-SNAPSHOT.jar
 - **Logging:** Loki + Promtail
 - **Metrics endpoint:** /actuator/prometheus on cloud-app
 - **Grafana URL:** http://grafana.18.192.246.204.nip.io
+- **Database:** PostgreSQL 16 (separate container)
+- **DB credentials:** Kubernetes Secret `postgres-credentials`
+- **DB storage:** 5Gi PersistentVolumeClaim (local-path StorageClass)
+- **App ↔ DB connection:** in-cluster service DNS (`postgres:5432`), JPA + HikariCP

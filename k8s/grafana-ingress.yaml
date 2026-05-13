@@ -4,11 +4,19 @@ metadata:
   name: grafana
   namespace: monitoring
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # Reference the middleware for HTTP to HTTPS redirection
+    traefik.ingress.kubernetes.io/router.middlewares: monitoring-redirect-https@kubernetescrd
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - grafana.d15hub.com
+      secretName: grafana-tls
   rules:
-    - host: grafana.18.192.246.204.nip.io
+    - host: grafana.d15hub.com
       http:
         paths:
           - path: /

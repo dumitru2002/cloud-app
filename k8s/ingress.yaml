@@ -3,12 +3,23 @@ kind: Ingress
 metadata:
   name: cloud-app
   annotations:
-    # Tell Traefik to use the HTTP entrypoint
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    # Tell Traefik to use both HTTP and HTTPS entrypoints
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    # Auto-redirect HTTP to HTTPS
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    # Use cert-manager to obtain the certificate
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # Reference the middleware for HTTP to HTTPS redirection
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - app.d15hub.com
+      secretName: cloud-app-tls # cert-manager will create this Secret
   rules:
-    - http:
+    - host: app.d15hub.com
+      http:
         paths:
           - path: /
             pathType: Prefix

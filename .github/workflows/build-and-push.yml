@@ -93,6 +93,8 @@ jobs:
           kubectl apply -f k8s/postgres-pvc.yaml
           kubectl apply -f k8s/postgres-service.yaml
           kubectl apply -f k8s/postgres-deployment.yaml
+          kubectl apply -f k8s/cluster-issuers.yaml
+          kubectl apply -f k8s/redirect-https.yaml
 
       - name: Apply deployment with new image
         run: |
