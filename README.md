@@ -23,20 +23,20 @@ java -jar ./build/libs/tech-challenge-0.0.1-SNAPSHOT.jar
 
 ### Requirements
 
-1. [DONE]This project should be made to run as a Docker image.
-2. [DONE]Docker image should be published to a Docker registry.
-3. [DONE]Docker image should be deployed to a Kubernetes cluster.
-4. [DONE]Kubernetes cluster should be running on a cloud provider.
-5. [DONE]Kubernetes cluster should be accessible from the internet.
-6. [DONE]Kubernetes cluster should be able to scale the application.
-7. [DONE]Kubernetes cluster should be able to update the application without downtime.
-8. [DONE]Kubernetes cluster should be able to rollback the application to a previous version.
-9. [DONE]Kubernetes cluster should be able to monitor the application.
-10. [DONE]Kubernetes cluster should be able to autoscale the application based on the load.
-11. [DONE]Application logs should be stored in a centralised logging system (Loki, Kibana, etc.)
-12. [DONE]Application should be able to send metrics to a monitoring system.
-13. Database should be running on a separate container.
-14. Storage should be mounted to the database container.
+[x]1. This project should be made to run as a Docker image.
+[x]2. Docker image should be published to a Docker registry.
+[x]3. Docker image should be deployed to a Kubernetes cluster.
+[x]4. Kubernetes cluster should be running on a cloud provider.
+[x]5. Kubernetes cluster should be accessible from the internet.
+[x]6. Kubernetes cluster should be able to scale the application.
+[x]7. Kubernetes cluster should be able to update the application without downtime.
+[x]8. Kubernetes cluster should be able to rollback the application to a previous version.
+[x]9. Kubernetes cluster should be able to monitor the application.
+[x]10. Kubernetes cluster should be able to autoscale the application based on the load.
+[x]11. Application logs should be stored in a centralised logging system (Loki, Kibana, etc.)
+[x]12. Application should be able to send metrics to a monitoring system.
+[x]13. Database should be running on a separate container.
+[x]14. Storage should be mounted to the database container.
 
 ## Cloud Infrastructure
 
