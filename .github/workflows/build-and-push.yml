@@ -90,6 +90,9 @@ jobs:
           kubectl apply -f k8s/cloud-app-servicemonitor.yaml
           kubectl apply -f k8s/grafana-ingress.yaml
           kubectl apply -f k8s/hpa.yaml
+          kubectl apply -f k8s/postgres-pvc.yaml
+          kubectl apply -f k8s/postgres-service.yaml
+          kubectl apply -f k8s/postgres-deployment.yaml
 
       - name: Apply deployment with new image
         run: |
