@@ -1,3 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${DB_NAME:cloudapp}
+    username: ${DB_USER:appuser}
+    password: ${DB_PASSWORD:changeme}
+  jpa:
+    hibernate:
+      ddl-auto: update # creates tables on startup; fine for demo, NOT for prod
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+
 management:
   endpoints:
     web:
