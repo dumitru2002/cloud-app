@@ -48,12 +48,22 @@ java -jar ./build/libs/tech-challenge-0.0.1-SNAPSHOT.jar
 - **Storage:** 20 GB EBS gp3 root volume
 - **Public access:** Ports 80, 443, 30000-32767 open to internet; port 22 restricted to operator IP
 - **Ingress controller:** Traefik (bundled with k3s, exposed on host ports 80/443 via Klipper)
-- **Public URL:** http://18.192.246.204
 - **Monitoring:** kube-prometheus-stack (Prometheus, Grafana, kube-state-metrics, node-exporter)
 - **Logging:** Loki + Promtail
 - **Metrics endpoint:** /actuator/prometheus on cloud-app
-- **Grafana URL:** http://grafana.18.192.246.204.nip.io
 - **Database:** PostgreSQL 16 (separate container)
 - **DB credentials:** Kubernetes Secret `postgres-credentials`
 - **DB storage:** 5Gi PersistentVolumeClaim (local-path StorageClass)
 - **App ↔ DB connection:** in-cluster service DNS (`postgres:5432`), JPA + HikariCP
+
+## Public URLs
+
+- App: https://app.yourdomain.com
+- Grafana: https://grafana.yourdomain.com (admin / demoAdmin123)
+
+## TLS
+
+- Provider: Let's Encrypt
+- Automation: cert-manager
+- Issuer: ClusterIssuer `letsencrypt-prod`
+- Renewal: automatic, 30 days before expiry
