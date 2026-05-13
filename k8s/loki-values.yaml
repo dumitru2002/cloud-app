@@ -1,0 +1,24 @@
+loki:
+  enabled: true
+  isDefault: false               # Prometheus stays the default data source
+  persistence:
+    enabled: true
+    storageClassName: local-path
+    size: 5Gi
+
+promtail:
+  enabled: true                  # the log-collecting agent (runs on every node)
+
+grafana:
+  enabled: false                 # we already have Grafana from kube-prometheus-stack
+prometheus:
+  enabled: false                 # same
+
+# resource trimming
+loki:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 256Mi

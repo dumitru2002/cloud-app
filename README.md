@@ -33,8 +33,8 @@ java -jar ./build/libs/tech-challenge-0.0.1-SNAPSHOT.jar
 8. [DONE]Kubernetes cluster should be able to rollback the application to a previous version.
 9. [DONE]Kubernetes cluster should be able to monitor the application.
 10. Kubernetes cluster should be able to autoscale the application based on the load.
-11. Application logs should be stored in a centralised logging system (Loki, Kibana, etc.)
-12. Application should be able to send metrics to a monitoring system.
+11. [DONE]Application logs should be stored in a centralised logging system (Loki, Kibana, etc.)
+12. [DONE]Application should be able to send metrics to a monitoring system.
 13. Database should be running on a separate container.
 14. Storage should be mounted to the database container.
 
@@ -49,3 +49,7 @@ java -jar ./build/libs/tech-challenge-0.0.1-SNAPSHOT.jar
 - **Public access:** Ports 80, 443, 30000-32767 open to internet; port 22 restricted to operator IP
 - **Ingress controller:** Traefik (bundled with k3s, exposed on host ports 80/443 via Klipper)
 - **Public URL:** http://18.192.246.204
+- **Monitoring:** kube-prometheus-stack (Prometheus, Grafana, kube-state-metrics, node-exporter)
+- **Logging:** Loki + Promtail
+- **Metrics endpoint:** /actuator/prometheus on cloud-app
+- **Grafana URL:** http://grafana.18.192.246.204.nip.io
