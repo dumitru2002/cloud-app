@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cloud-app
+  namespace: monitoring # ServiceMonitors are typically in the monitoring ns
+  labels:
+    release: kps # MUST match the Helm release name — Prometheus selects by this label
+spec:
+  namespaceSelector:
+    matchNames:
+      - default # where cloud-app lives
+  selector:
+    matchLabels:
+      app: cloud-app # matches your Service's labels
+  endpoints:
+    - port: http
+      path: /actuator/prometheus
+      interval: 15s

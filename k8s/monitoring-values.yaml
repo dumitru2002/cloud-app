@@ -1,0 +1,48 @@
+# Trim resources to fit on a t3.medium
+prometheus:
+  prometheusSpec:
+    retention: 6h # default 10d would fill the disk
+    resources:
+      requests:
+        cpu: 100m
+        memory: 400Mi
+      limits:
+        memory: 800Mi
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+
+grafana:
+  adminPassword: "demoAdmin123"
+  service:
+    type: ClusterIP
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+  persistence:
+    enabled: true
+    storageClassName: local-path
+    size: 2Gi
+
+alertmanager:
+  enabled: false # not needed for the demo
+
+#kube components for control-panel monitoring works different in k3s, so we disable them to avoid confusion and save resources
+kubeApiServer:
+  enabled: true
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeEtcd:
+  enabled: false
