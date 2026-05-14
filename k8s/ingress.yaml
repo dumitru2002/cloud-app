@@ -21,6 +21,13 @@ spec:
     - host: app.d15hub.com
       http:
         paths:
+          - path: /actuator
+            pathType: Prefix
+            backend:
+              service:
+                name: cloud-app
+                port:
+                  number: 80
           - path: /
             pathType: Prefix
             backend:
